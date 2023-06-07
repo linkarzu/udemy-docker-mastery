@@ -7,6 +7,8 @@ services:
       - frontend
     deploy:
       replicas: 1
+      # this update dictates how the services will be updated, you want all replicas to go down
+      # at the same time, or 1 at a time, the delay between them
       update_config:
         parallelism: 2
         delay: 10s
@@ -32,7 +34,7 @@ services:
     depends_on:
       - redis
     deploy:
-      replicas: 2
+      replicas: 5
       update_config:
         parallelism: 2
       restart_policy:
@@ -65,6 +67,7 @@ services:
       mode: replicated
       replicas: 1
       labels: [APP=VOTING]
+      # If it tries to restart and continues to fail, it won't try more than 3 times
       restart_policy:
         condition: on-failure
         delay: 10s
