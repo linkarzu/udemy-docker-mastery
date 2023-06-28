@@ -1,0 +1,18 @@
+version: "3.9"
+
+services:
+  psql:
+    image: postgres:14
+    secrets:
+      - psql_user
+      - psql_pass
+    environment:
+      POSTGRES_PASSWORD_FILE: /run/secrets/psql_pass
+      POSTGRES_USER_FILE: /run/secrets/psql_user
+
+secrets:
+  # the names here `psql_user` have to match the name in `docker secret ls`
+  psql_user:
+    external: true
+  psql_pass:
+    external: true
